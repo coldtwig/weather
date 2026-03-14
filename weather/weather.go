@@ -28,6 +28,7 @@ func GetWeather(geo geo.GeoData, format int) (string, error) {
 	if (*resp).StatusCode != 200 {
 		return "", errors.New("NOT_200")
 	}
+	defer resp.Body.Close()
 
 	body, err := io.ReadAll((*resp).Body)
 	if err != nil {
