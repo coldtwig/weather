@@ -19,8 +19,11 @@ type cityPopulationResp struct {
 func GetMyLocation(city string) (*GeoData, error) {
 	if city != "" {
 		isCity, err := checkLocation(city)
-		if err != nil || !isCity {
-			return nil, errors.New("INCORRECT_CITY: " + err.Error())
+		if err != nil {
+			return nil, errors.New(err.Error())
+		}
+		if !isCity {
+			return nil, errors.New("INCORRECT_CITY")
 		}
 
 		return &GeoData{
@@ -37,13 +40,11 @@ func GetMyLocation(city string) (*GeoData, error) {
 	}
 	defer resp.Body.Close()
 
-	body, err := io.ReadAll((*resp).Body)
+	var geo GeoData
+	err = json.NewDecoder(resp.Body).Decode(&geo)
 	if err != nil {
 		return nil, err
 	}
-
-	var geo GeoData
-	json.Unmarshal(body, &geo)
 
 	return &geo, nil
 }
@@ -64,12 +65,12 @@ func checkLocation(city string) (bool, error) {
 	if err != nil {
 		return false, err
 	}
-	if (*resp).StatusCode != 200 {
+	if resp.StatusCode != 200 {
 		return false, errors.New("STATUS_NOT_201")
 	}
 	defer resp.Body.Close()
 
-	body, err := io.ReadAll((*resp).Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return false, err
 	}
