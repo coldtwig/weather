@@ -15,7 +15,7 @@ func TestGetMyLocation(t *testing.T) {
 	// Act - выполняем функцию
 	got, err := geo.GetMyLocation(city)
 	if err != nil {
-		t.Error("Ошибка получения города:" + err.Error())
+		t.Fatal("Ошибка получения города:" + err.Error())
 	}
 	if got.City != expected.City {
 		t.Errorf("Ожидалось: %v, получено: %v", expected, got)
@@ -27,7 +27,7 @@ func TestGetMyLocationNoCity(t *testing.T) {
 	city := "Londonandsd"
 
 	_, err := geo.GetMyLocation(city)
-	if err != geo.ErrorIncorrectCity {
-		t.Errorf("Ожидалась ошибка: %v, получено: %v", geo.ErrorIncorrectCity, err)
+	if err != geo.ErrIncorrectCity {
+		t.Errorf("Ожидалась ошибка: %v, получено: %v", geo.ErrIncorrectCity, err)
 	}
 }
