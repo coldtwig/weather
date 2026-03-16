@@ -39,10 +39,6 @@ var testCases = []struct {
 		name:   "Minus format",
 		format: -1,
 	},
-	{
-		name:   "Correct format",
-		format: 1,
-	},
 }
 
 func TestGetWeatherIncorrectFormat(t *testing.T) {

@@ -23,7 +23,7 @@ func GetMyLocation(city string) (*GeoData, error) {
 	if city != "" {
 		isCity, err := checkLocation(city)
 		if err != nil {
-			return nil, errors.New(err.Error())
+			return nil, err
 		}
 		if !isCity {
 			return nil, ErrorIncorrectCity
